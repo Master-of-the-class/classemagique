@@ -1,54 +1,57 @@
-function loadClasses(){
+function loadClasses() {
     let list = document.getElementById("classList");
     list.innerHTML = "";
 
     for (let i = 0; i < localStorage.length; i++) {
+
         let key = localStorage.key(i);
 
-        if (key.startsWith("class_")) {
-
-            let name = key.replace("class_","");
-
-            let raw = localStorage.getItem(key);
-            let data = null;
-
-try {
-    data = raw ? JSON.parse(raw) : null;
-} catch (e) {
-    console.error("LocalStorage corrompu pour :", key, raw);
-    continue;
-}
-
-            let icon = "🏫";
-            let students = [];
-
-            if (!data) {
-                icon = "🏫";
-                students = [];
-            }
-            else if (Array.isArray(data)) {
-                students = data;
-            }
-            else {
-                icon = data.icon || "🏫";
-                students = data.students || [];
-            }
-
-            list.innerHTML += `
-                <div class="classCard"
-                     onclick="openClass('${name}')">
-
-                    <div class="classIcon">${icon}</div>
-
-                    <div class="className">${name}</div>
-
-                    <div>${students.length} élèves</div>
-
-                </div>
-            `;
+        // Ignore tout ce qui n'est pas une vraie classe
+        if (!key.startsWith("class_") || key.endsWith("_lastReset")) {
+            continue;
         }
+
+        let name = key.replace("class_", "");
+
+        let raw = localStorage.getItem(key);
+        let data = null;
+
+        try {
+            data = raw ? JSON.parse(raw) : null;
+        } catch (e) {
+            console.error("LocalStorage corrompu pour :", key, raw);
+            continue;
+        }
+
+        let icon = "🏫";
+        let students = [];
+
+        if (!data) {
+            students = [];
+        }
+        else if (Array.isArray(data)) {
+            students = data;
+        }
+        else {
+            icon = data.icon || "🏫";
+            students = data.students || [];
+        }
+
+        list.innerHTML += `
+            <div class="classCard"
+                 onclick="openClass('${name}')">
+
+                <div class="classIcon">${icon}</div>
+
+                <div class="className">${name}</div>
+
+                <div>${students.length} élèves</div>
+
+            </div>
+        `;
     }
 }
+
 function createClass(){
 
     let name = document.getElementById("className").value.trim();
