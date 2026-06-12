@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Combat du Boss</title>
+
+<link rel="stylesheet" href="css/boss.css">
+
+</head>
+
+<body>
+
+<h1>Combat du Boss</h1>
+
+<div id="setupDiv">
+<h2>Préparez le Boss</h2>
+
+<label>❤️ Vies: <input type="number" id="bossHearts" value="3"></label><br><br>
+<label>XP Récompense: <input type="number" id="bossXP" value="150"></label><br><br>
+<label>💰 Or Récompense: <input type="number" id="bossGold" value="5"></label><br><br>
+<label>🔮 Mana Récompense: <input type="number" id="bossMana" value="0"></label><br><br>
+<label>Nombre de mauvaises réponses avant la fuite du boss : <input type="number" id="bossEscape" value="3"></label><br><br>
+
+<button onclick="startFight()">Commencer le combat</button>
+</div>
+
+
+<div id="fightDiv" style="display:none;">
+
+<div id="heartsContainer"></div>
+<div id="statusContainer"></div>
+
+<img id="bossImage" src="">
+
+<div>
+<button id="goodBtn" onclick="goodAnswer()">Bonne réponse ✅</button>
+<button id="wrongBtn" onclick="wrongAnswer()">Mauvaise réponse ❌</button>
+
+<br>
+
+<button onclick="showRandomStudent()">🎲 Élève au hasard</button>
+<button onclick="skipTurn()">⏭️ Passer son tour</button>
+</div>
+
+</div>
+
+<div id="thinkingIcon">💭</div>
+<div id="overlay" onclick="closePopup()"></div>
+
+<div id="studentPopup">
+    <img id="popupImg">
+    <h3 id="popupName"></h3>
+    <div id="popupStats"></div>
+
+    <button onclick="openManaShop()">🔮 Utiliser du mana</button>
+    <button onclick="changeMana(-1)">➖ Mana -1</button>
+    <button onclick="closePopup()">Fermer</button>
+</div>
+
+
+<div id="manaShop">
+    <h3>🧙 Sorts</h3>
+    <div id="spellContainer"></div>
+    <button onclick="closeManaShop()">Fermer</button>
+</div>
+
+<div id="currentStudentBar"></div>
+
+<script src="js/xp.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/boss.js"></script>
+</body>
+</html>

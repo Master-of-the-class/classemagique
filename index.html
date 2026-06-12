@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Classe Magique</title>
+
+
+<link rel="stylesheet" href="css/main.css">
+
+</head>
+<body>
+
+<div class="topbar">
+    🏰 Classe Magique
+</div>
+
+<div class="main">
+
+    <div class="panel">
+
+    <div class="panel-content">
+
+        
+        <div class="form">
+		<h2>Transformez votre classe en aventure RPG!</h2>
+            <h2>✨ Créer une nouvelle classe</h2>
+
+            <input type="text"
+                   id="className"
+                   placeholder="Nom de la classe">
+
+            <input type="number"
+                   id="studentCount"
+                   placeholder="Nombre d'élèves">
+
+            <br><br>
+
+            <label>Icône de la classe :</label>
+
+            <select id="classIcon">
+                <option value="🏫">🏫</option>
+    <option value="⚔️">⚔️</option>
+<option value="🗡️">🗡️</option>
+<option value="🛡️">🛡️</option>
+<option value="🏹">🏹</option>
+<option value="👑">👑</option>
+<option value="💀">💀</option>
+<option value="☠️">☠️</option>
+<option value="👹">👹</option>
+<option value="👺">👺</option>
+<option value="🐉">🐉</option>
+<option value="🔥">🔥</option>
+<option value="🧙">🧙</option>
+<option value="🧝">🧝</option>
+<option value="🧟">🧟</option>
+<option value="🧛">🧛</option>
+<option value="🪄">🪄</option>
+<option value="💎">💎</option>
+<option value="🏰">🏰</option>
+<option value="🏯">🏯</option>
+<option value="⛓️">⛓️</option>
+<option value="🕯️">🕯️</option>
+<option value="🦇">🦇</option>
+<option value="🐺">🐺</option>
+<option value="🦂">🦂</option>
+<option value="🐍">🐍</option>
+<option value="👁️">👁️</option>
+<option value="🌑">🌑</option>
+<option value="🌙">🌙</option>
+<option value="⭐">⭐</option>
+<option value="✨">✨</option>
+<option value="💥">💥</option>
+<option value="☄️">☄️</option>
+<option value="🪓">🪓</option>
+<option value="🔨">🔨</option>
+<option value="⚒️">⚒️</option>
+<option value="⛏️">⛏️</option>
+<option value="🧨">🧨</option>
+<option value="🪙">🪙</option>
+<option value="🔮">🔮</option>
+<option value="❤️">❤️</option>
+<option value="🩸">🩸</option>
+<option value="☄">☄</option>
+<option value="🌋">🌋</option>
+<option value="🐲">🐲</option>
+<option value="🦅">🦅</option>
+<option value="🦁">🦁</option>
+<option value="🐗">🐗</option>
+<option value="🐻">🐻</option>
+<option value="🐴">🐴</option>
+<option value="⚜️">⚜️</option>
+<option value="🏆">🏆</option>
+<option value="🎖️">🎖️</option>
+            </select>
+
+            <br><br>
+
+            <button id="createClassBtn">
+                ➕ Créer
+            </button>
+        </div>
+
+        
+        <div class="image"></div>
+
+    </div>
+
+</div>
+   
+    <div class="panel">
+        <h2>📚 Classes existantes</h2>
+
+        <div id="classList" class="classGrid"></div>
+    </div>
+
+    <div class="panel">
+        <h2>💾 Sauvegarde</h2>
+
+        <button id="exportBtn">
+            Exporter toutes les classes
+        </button>
+
+        <button id="importBtn">
+            Importer des classes
+        </button>
+
+        <input
+            type="file"
+            id="importClassesFile"
+            style="display:none"
+            onchange="importAllClasses(event)">
+    </div>
+
+</div>
+<script src="js/index.js"></script>
+<script>
+
+if(!localStorage.getItem("demoInstalled")){
+
+    localStorage.setItem(
+    "class_Classe Magique",
+    JSON.stringify({
+        icon:"🏰",
+        demo:true,
+
+        students:[
+                {name:"Harry",hearts:10,mana:5,gold:0,xp:0,level:1},
+                {name:"Hermione",hearts:10,mana:5,gold:0,xp:0,level:1},
+                {name:"Ron",hearts:10,mana:5,gold:0,xp:0,level:1},
+                {name:"Drago",hearts:10,mana:5,gold:0,xp:0,level:1},
+                {name:"Luna",hearts:10,mana:5,gold:0,xp:0,level:1},
+                {name:"Neville",hearts:10,mana:5,gold:0,xp:0,level:1},
+                {name:"Ginny",hearts:10,mana:5,gold:0,xp:0,level:1},
+                {name:"Cedric",hearts:10,mana:5,gold:0,xp:0,level:1}
+            ]
+        })
+    );
+
+    localStorage.setItem(
+        "demoInstalled",
+        "true"
+    );
+}
+
+</script>
+</body>
+</html>
+

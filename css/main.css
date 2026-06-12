@@ -1,0 +1,227 @@
+
+body{
+    font-family:"Trebuchet MS", serif;
+    margin:0;
+    min-height:100vh;
+
+    background:
+        linear-gradient(
+            rgba(0,0,0,.15),
+            rgba(0,0,0,.15)
+        ),
+        radial-gradient(
+            circle at center,
+            #6d5534,
+            #3e2e1d
+        );
+
+    color:#f7e9c0;
+}
+
+/* Top Bar */
+
+.topbar{
+    background:
+        linear-gradient(
+            #4d371f,
+            #2d1f10
+        );
+
+    border-bottom:3px solid #a88443;
+
+    padding:15px;
+
+    text-align:center;
+
+    font-size:28px;
+    font-weight:bold;
+
+    color:#f7e9c0;
+}
+
+/* Main Layout */
+
+.main{
+    max-width:1200px;
+    margin:auto;
+    padding:25px;
+}
+
+/* Panels */
+
+.panel{
+    background:
+        linear-gradient(
+            180deg,
+            rgba(43,29,16,.95),
+            rgba(59,42,24,.95)
+        );
+
+    border:2px solid #a88443;
+
+    border-radius:18px;
+
+    padding:20px;
+
+    margin-bottom:25px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.35);
+}
+
+#classIcon{
+    font-size:32px;
+    padding:10px;
+    width:120px;
+    text-align:center;
+}
+
+#classIcon option{
+    font-size:32px;
+}
+
+/* Inputs */
+
+input{
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #a88443;
+
+    background:#1f140c;
+    color:#f7e9c0;
+
+    margin:5px;
+}
+
+input:focus{
+    outline:none;
+    border-color:gold;
+}
+
+/* Buttons */
+
+button{
+    padding:10px 16px;
+
+    border:none;
+    border-radius:8px;
+
+    background:#6d4c28;
+    color:#f7e9c0;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+button:hover{
+    background:#8b5e34;
+    transform:translateY(-2px);
+}
+
+/* Class Cards */
+
+.classGrid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(220px,1fr));
+
+    gap:15px;
+}
+
+.classCard{
+    background:
+        linear-gradient(
+            180deg,
+            #f5e8c8,
+            #e4cf9a
+        );
+
+    color:#5a2d00;
+
+    border:2px solid #8b6b3f;
+
+    border-radius:16px;
+
+    padding:20px;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,.25);
+
+    transition:.2s;
+}
+
+.classCard:hover{
+    transform:
+        translateY(-5px)
+        scale(1.03);
+
+    box-shadow:
+        0 0 15px rgba(255,215,0,.3),
+        0 10px 20px rgba(0,0,0,.35);
+}
+
+.className{
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.classIcon{
+    font-size:48px;
+    margin-bottom:10px;
+}
+
+.panel-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.form {
+    flex: 1;
+}
+
+.image {
+    flex: 0;
+}
+
+.image img {
+    width: 180px; /* ajuste selon ton goût */
+    margin-left: 30px;
+}
+.image{
+
+    flex:1;
+
+    min-height:400px;
+
+    background-image:
+        url("../images/classemagique2.png");
+
+    background-size:cover;
+
+    background-position:center;
+
+    border-radius:20px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.4);
+}
+
+.image{
+
+    transition:.3s;
+}
+
+.image:hover{
+
+    transform:scale(1.02);
+}

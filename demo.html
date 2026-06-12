@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Classe</title>
+
+<link rel="stylesheet" href="css/class.css">
+
+</head>
+<body>
+
+<div class="topbar">
+
+    <div class="topbarTitle">
+
+        🏰 <span id="classTitle"></span>
+
+    </div>
+
+    <div id="syncTimer" class="syncBadge">
+        🔄 5:00
+    </div>
+
+    <div class="topbarActions">
+
+        <button class="actionBtn"
+                onclick="selectAllStudents()">
+            ✅ Tous
+        </button>
+
+<button class="actionBtn"
+        onclick="openHistoryPage()">
+    📜 Historique
+</button>
+
+        <button class="actionBtn bossBtn"
+                onclick="goToBoss()">
+            👹 Boss
+        </button>
+
+        <button class="actionBtn"
+                onclick="openTools()">
+            🛠 Outils
+        </button>
+
+        <button class="actionBtn"
+                onclick="openSettings()">
+            ⚙ Paramètres
+        </button>
+
+        <button class="actionBtn"
+                onclick="goBack()">
+            ← Retour
+        </button>
+
+    </div>
+
+</div>
+
+<div class="container" id="students"></div>
+
+<div class="overlay" id="overlay" onclick="closeAll()"></div>
+
+<!-- Student Popup -->
+<div class="popup" id="popup">
+    <h3>Modifier l'élève</h3>
+    Nom:<br>
+    <input type="text" id="studentName">
+<img id="previewImage"
+     style="width:120px;height:120px;object-fit:cover;border-radius:10px;border:1px solid #ccc;">
+
+<input type="file" id="studentImage" accept="image/*">
+<button onclick="restoreDefaultImage()">
+🧙 Image par défaut
+</button>
+
+<br>
+
+<b>Personnage</b><br>
+
+<button onclick="setGender('m')">
+♂ Masculin
+</button>
+
+<button onclick="setGender('f')">
+♀ Féminin
+</button>
+
+
+
+<span id="genderDisplay"></span>
+
+<br><br>
+    ❤️ Cœurs : <span id="liveHearts"></span>
+    <button onclick="changeHearts(1)">+</button>
+    <button onclick="changeHearts(-1)">-</button>
+	<button onclick="openSanctionMenu(current); event.stopPropagation()">
+⚖️ Sanction
+</button>
+    <br>
+
+    🪙 Or : <span id="liveGold"></span>
+<button onclick="openStudentShop(current)">🛒 Boutique</button>
+<br>
+    <input type="number" id="goldInput">
+    <button onclick="changeGold()">Appliquer</button>
+    <br>
+
+    🔮 Mana : <span id="liveMana"></span>
+    <button onclick="changeMana(1)">+</button>
+    <button onclick="changeMana(-1)">-</button>
+<button onclick="openSpellShop()">🧙 Sorts</button>
+    <br><br>
+
+	
+	⭐ XP : <span id="liveXP"></span><br>
+	<input type="number" id="xpInput" placeholder="Ajouter XP">
+	<button onclick="changeXP()">Appliquer</button>
+<button onclick="toggleAbsent()">🚫 Absent / Présent</button>
+
+<button onclick="openRecurringRewards()">
+📅 Récompenses automatiques
+</button>
+
+<br><br>
+	
+
+    <button onclick="saveAndClose()">Enregistrer</button>
+</div>
+
+<div class="popup" id="redemptionPopup">
+    <h3>💀 Rédemption</h3>
+
+    <img id="redemptionImage"
+         style="width:120px;height:120px;object-fit:cover;border-radius:10px;border:2px solid darkred;display:block;margin:auto;">
+
+    <p id="redemptionName" style="text-align:center;font-weight:bold;"></p>
+
+    <p style="text-align:center;color:#ffaaaa;">
+        Cet élève est à 0 ❤️
+    </p>
+
+    <button onclick="redeemStudent()"
+        style="width:100%;background:darkred;">
+        ✨ Rédemption (+1 ❤️)
+    </button>
+
+    <button onclick="closeRedemption()">
+        Fermer
+    </button>
+</div>
+
+
+<!-- Settings Menu -->
+<div class="settings" id="settingsMenu">
+    <h3>Paramètres</h3>
+    <button onclick="resetClass()">Réinitialiser la classe</button><br><br>
+  
+<hr>
+
+<h4>👨‍🎓 Gestion des élèves</h4>
+
+
+
+
+<button onclick="openLevelRewards()">
+⭐ Gestion des niveaux
+</button>
+<br><br>
+
+
+
+<br><br>
+    
+<br><br>
+<hr style="border:1px solid #a88443;">
+
+<h4>🔄 Synchronisation automatique</h4>
+
+<label>
+Temps entre les synchronisations :
+</label>
+
+<input
+    type="number"
+    id="syncMinutes"
+    min="1"
+    max="60"
+    value="5"
+    style="width:80px;">
+
+minutes
+
+<br><br>
+
+<label>
+    <input
+        type="checkbox"
+        id="disableSync">
+    Désactiver la synchronisation automatique
+</label>
+
+<br><br>
+
+<button onclick="saveSyncSettings()">
+💾 Sauvegarder les réglages
+</button>
+
+
+<br><br>
+<hr style="border:1px solid #a88443;">
+
+<h4>💾 Sauvegarde de classe</h4>
+
+<button onclick="exportClass()">💾 Exporter la classe</button><br><br>
+
+<input type="file" id="importFile" style="display:none" onchange="importClass(event)">
+
+<button onclick="document.getElementById('importFile').click()">
+📂 Importer la classe
+</button>
+
+</div>
+
+<!-- Tools Menu -->
+<div class="settings" id="toolsMenu">
+    <h3>Outils</h3>
+    <button onclick="pickRandomStudent()">🎲 Élève au hasard</button>
+    <br><br>
+    <label>Taille des groupes (2–6) :</label><br>
+    <input type="number" id="groupSize" min="2" max="6" value="2">
+    <button onclick="makeGroups()">Créer les groupes</button>
+    <br><br>
+    <label><input type="checkbox" id="muteToggle" onchange="toggleMute()"> Couper le son</label>
+    <br><br>
+	<label><input type="checkbox" id="noRepeatToggle"> Ne pas répéter avant d'avoir tout choisi</label>
+	<br><br>
+	<button onclick="resetPicked()">Réinitialiser les élèves choisis</button>
+	<br><br>
+	<button onclick="openSpellEditor()">🧙 Configurer les sorts</button>
+   
+	<br><br>
+	<button onclick="openShopEditor()">🛒 Configurer boutique</button><br><br>
+<button onclick="openWeeklyRewards()">
+📅 Récompenses hebdomadaires
+</button><br><br>
+<button onclick="openSanctionEditor()">⚖️ Configurer les sanctions</button>
+<br><br>
+ <button onclick="closeAll()">Fermer</button><br><br>
+
+</div>
+
+<div class="popup" id="bulkPopup">
+    <h3>Récompense de groupe</h3>
+
+    ❤️ Cœurs :
+    <input type="number" id="bulkHearts" value="0"><br><br>
+
+    🔮 Mana :
+    <input type="number" id="bulkMana" value="0"><br><br>
+
+    🪙 Or :
+    <input type="number" id="bulkGold" value="0"><br><br>
+
+    ⭐ XP :
+    <input type="number" id="bulkXP" value="0"><br><br>
+
+    <button onclick="applyBulkReward()">Appliquer</button>
+    <button onclick="closeAll()">Annuler</button>
+</div>
+<div class="popup" id="spellShopPopup">
+    <h3>🧙 Boutique de sorts</h3>
+    <div id="spellShopList"></div>
+    <button onclick="closeSpellShop()">Fermer</button>
+</div>
+<div class="popup" id="shopPopup">
+    <h3>🛒 Boutique</h3>
+    <div id="shopList"></div>
+    <button onclick="closeShop()">Fermer</button>
+</div>
+<div class="popup" id="groupPopup">
+    <h3>Groupes</h3>
+    <div id="groupContent" style="max-height:300px;overflow:auto;"></div>
+    <br>
+    <button onclick="downloadGroups()">Télécharger</button>
+    <button onclick="closeAll()">Fermer</button>
+</div>
+
+	<div class="popup" id="spellEditor">
+    <h3>🧙 Sortilèges</h3>
+
+    <div id="spellList"></div>
+
+    <button onclick="addSpell()">➕ Ajouter un sort</button><br><br>
+    <button onclick="saveSpells()">💾 Sauvegarder</button>
+    <button onclick="closeSpellEditor()">Fermer</button>
+</div>
+
+<div class="popup" id="shopEditor" style="display:none;">
+    <h3>⚙️ Configuration de la boutique</h3>
+
+    <div id="shopEditorList"></div>
+
+    <button onclick="addShopItem()">➕ Ajouter un objet</button><br><br>
+
+    <button onclick="saveShopItems()">💾 Sauvegarder</button>
+    <button onclick="closeShopEditor()">Fermer</button>
+</div>
+<div class="popup" id="weeklyPopup">
+    <h3>📅 Récompenses hebdomadaires</h3>
+
+    <p><b>Valeurs par élève :</b></p>
+
+    ❤️ Cœurs: <input type="number" id="weekHeartsValue" value="0"><br>
+    🔮 Mana: <input type="number" id="weekManaValue" value="0"><br>
+    🪙 Or: <input type="number" id="weekGoldValue" value="0"><br>
+
+    <hr>
+
+    <h4>❤️ Cœurs (jours)</h4>
+    <div id="weekHeartsDays"></div>
+
+    <h4>🔮 Mana (jours)</h4>
+    <div id="weekManaDays"></div>
+
+    <h4>🪙 Or (jours)</h4>
+    <div id="weekGoldDays"></div>
+
+    <br>
+    <button onclick="saveWeeklyRewards()">💾 Sauvegarder</button>
+    <button onclick="closeWeeklyRewards()">Fermer</button>
+</div>
+<div class="popup" id="levelRewardsPopup">
+    <h3>⭐ Récompenses de niveau</h3>
+
+    🪙 Or gagné par niveau :
+    <input type="number" id="levelGold" min="0">
+
+    🔮 Mana gagné par niveau :
+    <input type="number" id="levelMana" min="0">
+
+    ❤️ Cœurs gagnés par niveau :
+    <input type="number" id="levelHearts" min="0">
+
+    <br><br>
+
+    <button onclick="saveLevelRewards()">
+        💾 Sauvegarder
+    </button>
+
+    <button onclick="closeLevelRewards()">
+        Fermer
+    </button>
+</div>
+<div class="popup" id="studentRecurringPopup">
+
+<h3>📅 Récompenses automatiques</h3>
+
+<h4>❤️ Cœurs</h4>
+
+Lundi <input type="number" id="rh_mon"><br>
+Mardi <input type="number" id="rh_tue"><br>
+Mercredi <input type="number" id="rh_wed"><br>
+Jeudi <input type="number" id="rh_thu"><br>
+Vendredi <input type="number" id="rh_fri"><br>
+Samedi <input type="number" id="rh_sat"><br>
+Dimanche <input type="number" id="rh_sun"><br>
+
+<hr>
+
+<h4>🔮 Mana</h4>
+
+Lundi <input type="number" id="rm_mon"><br>
+Mardi <input type="number" id="rm_tue"><br>
+Mercredi <input type="number" id="rm_wed"><br>
+Jeudi <input type="number" id="rm_thu"><br>
+Vendredi <input type="number" id="rm_fri"><br>
+Samedi <input type="number" id="rm_sat"><br>
+Dimanche <input type="number" id="rm_sun"><br>
+
+<hr>
+
+<h4>🪙 Or</h4>
+
+Lundi <input type="number" id="rg_mon"><br>
+Mardi <input type="number" id="rg_tue"><br>
+Mercredi <input type="number" id="rg_wed"><br>
+Jeudi <input type="number" id="rg_thu"><br>
+Vendredi <input type="number" id="rg_fri"><br>
+Samedi <input type="number" id="rg_sat"><br>
+Dimanche <input type="number" id="rg_sun"><br>
+
+<br>
+
+<button onclick="saveRecurringRewards()">
+💾 Sauvegarder
+</button>
+
+<button onclick="closeRecurringRewards()">
+Fermer
+</button>
+</div>
+
+<div class="popup" id="sanctionEditor" style="display:none;">
+    <h3>⚖️ Sanctions</h3>
+
+    <div id="sanctionList"></div>
+
+    <button onclick="addSanction()">➕ Ajouter une sanction</button><br><br>
+
+    <button onclick="saveSanctions()">💾 Sauvegarder</button>
+    <button onclick="closeSanctionEditor()">Fermer</button>
+</div>
+<div class="popup" id="sanctionPopup">
+    <h3>⚖️ Sanctions</h3>
+    <div id="sanctionOptions"></div>
+    <button onclick="closeSanctionPopup()">Fermer</button>
+</div>
+
+<script src="js/globals.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/studentCard.js"></script>
+<script src="js/rewards.js"></script>
+<script src="js/shop.js"></script>
+<script src="js/spells.js"></script>
+<script src="js/effects.js"></script>
+<script src="js/selection.js"></script>
+<script src="js/sanctions.js"></script>
+<script src="js/render.js"></script>
+<script src="js/popup.js"></script>
+<script src="js/groups.js"></script>
+<script src="js/importExport.js"></script>
+<script src="js/sync.js"></script>
+<script src="js/xp.js"></script>
+<script src="js/studentsdemo.js"></script>
+
+<script src="js/historique.js"></script>
+<script src="js/main.js"></script>
+<script src="js/script.js"></script>
+<script>
+
+</script>
+<div id="levelBanner">NIVEAU SUPÉRIEUR !</div>
+
+</body>
+</html>
