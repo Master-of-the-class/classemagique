@@ -37,27 +37,32 @@ function shakeBoss(){
     }, 300);
 }
 
-function startFight(){
+function startFight() {
+    let randomIndex = Math.floor(Math.random() * 50) + 1;
+document.getElementById("bossImage").classList.add("boss-idle");
+    document.getElementById("bossImage").src =
+        "images/boss/boss" + randomIndex + ".png";
 
-    let randomIndex = Math.floor(Math.random()*20)+1;
-    document.getElementById("bossImage").src = "boss"+randomIndex+".png";
-
-    boss.hearts = parseInt(bossHearts.value)||3;
-    boss.xp = parseInt(bossXP.value)||150;
-    boss.gold = parseInt(bossGold.value)||5;
-    boss.mana = parseInt(bossMana.value)||0;
-    boss.escape = parseInt(bossEscape.value)||3;
+    boss.hearts = parseInt(bossHearts.value) || 3;
+    boss.xp = parseInt(bossXP.value) || 150;
+    boss.gold = parseInt(bossGold.value) || 5;
+    boss.mana = parseInt(bossMana.value) || 0;
+    boss.escape = parseInt(bossEscape.value) || 3;
 
     wrongCount = 0;
     fightEnded = false;
 
-    document.getElementById("setupDiv").style.display="none";
-    document.getElementById("fightDiv").style.display="block";
+    document.getElementById("setupDiv").style.display = "none";
+    document.getElementById("fightDiv").style.display = "block";
+
     usedStudents = [];
     currentStudent = null;
+
     renderSelectedStudentBar();
     updateBoss();
 }
+
+window.startFight = startFight;
 
 function skipTurn(){
     if(fightEnded) return;
@@ -81,20 +86,39 @@ function updateBoss(){
 }
 
 function bossFlees(){
+
     fightEnded = true;
 
-    statusContainer.innerHTML =
-        `<div class="victoryText">💨 Le boss s'est enfui !</div>`;
+    document.getElementById("fightControls").style.display = "none";
 
-    let btn = document.createElement("button");
-    btn.innerText = "🏫 Retourner à la classe";
-    btn.onclick = () => {
-        window.location.href = "class.html?name=" + encodeURIComponent(className);
-    };
+    const bossImg = document.getElementById("bossImage");
 
-    statusContainer.appendChild(document.createElement("br"));
-    statusContainer.appendChild(btn);
+    bossImg.classList.remove("boss-idle");
+    bossImg.classList.add("boss-flee");
+
+    setTimeout(() => {
+
+        bossImg.style.display = "none";
+
+        statusContainer.innerHTML =
+            `<div class="victoryText">💨 Le boss s'est enfui !</div>`;
+
+        let btn = document.createElement("button");
+
+        btn.innerText = "🏫 Retourner à la classe";
+
+        btn.onclick = () => {
+            window.location.href =
+                "class.html?name=" +
+                encodeURIComponent(className);
+        };
+
+        statusContainer.appendChild(document.createElement("br"));
+        statusContainer.appendChild(btn);
+
+    }, 2500);
 }
+
 function renderSelectedStudentBar(){
     const bar = document.getElementById("currentStudentBar");
 
@@ -276,52 +300,99 @@ function useSpell(spell){
 updateStudentCard();
 
     if(boss.hearts === 0){
-        victory();
-    }
+    bossDefeated();
+}
 }
 
 
 
 function goodAnswer(){
     if(fightEnded) return;
-
+lockButtons();
     boss.hearts--;
     shakeBoss(); 
     updateBoss();
 clearSelectedStudent();
     if(boss.hearts <= 0){
-        victory();
-
-    }
+    bossDefeated();
+}
 }
 
-function wrongAnswer(){
-    if(fightEnded) return;
+function wrongAnswer() {
+  
+  if (fightEnded) return;
 
+lockButtons();
     wrongCount++;
-clearSelectedStudent();
-    if(wrongCount >= boss.escape){
+
+    playBossAttack(); 
+
+    clearSelectedStudent();
+
+    if (wrongCount >= boss.escape) {
         bossFlees();
         return;
-
     }
-updateBoss();
+
+    updateBoss();
 }
 
+function lockButtons() {
 
+    goodBtn.disabled = true;
+    wrongBtn.disabled = true;
 
-function victory(){
+    setTimeout(() => {
+        goodBtn.disabled = false;
+        wrongBtn.disabled = false;
+    }, 1000);
+}
+
+function playBossAttack() {
+    const bossImg = document.getElementById("bossImage");
+
+    const shake = document.getElementById("modeShake").checked;
+    const charge = document.getElementById("modeCharge").checked;
+
+    console.log("attack triggered");
+
+    // IMPORTANT : reset TOTAL animation
+    bossImg.style.animation = "none";
+
+    void bossImg.offsetHeight; // force reflow
+
+    if (charge) {
+        console.log("charge mode");
+        bossImg.style.animation = "bossAttack 0.45s ease-out";
+    } else if (shake) {
+        console.log("shake mode");
+        bossImg.style.animation = "shake 0.3s";
+    }
+
+    // reset après animation
+    setTimeout(() => {
+        bossImg.style.animation = "";
+    }, 500);
+}
+
+function victory() {
 
     fightEnded = true;
 
-    let btn = document.createElement("button");
+    statusContainer.innerHTML = "";
+
+    const title = document.createElement("div");
+    title.className = "victoryText";
+    title.innerText = "🏆 BOSS VAINCU ! 🏆";
+
+    const br = document.createElement("br");
+
+    const btn = document.createElement("button");
     btn.innerText = "🎁 Récupérer les récompenses";
     btn.onclick = claimRewards;
 
-    statusContainer.innerHTML =
-        '<div class="victoryText">🏆 BOSS VAINCU ! 🏆</div>';
-
-    statusContainer.appendChild(document.createElement("br"));
+    statusContainer.appendChild(title);
+    statusContainer.appendChild(br);
     statusContainer.appendChild(btn);
 }
 
@@ -432,4 +503,95 @@ function closeAll(){
     document.getElementById("studentPopup").style.display="none";
     document.getElementById("overlay").style.display="none";
     document.getElementById("manaShop").style.display="none";
+}
+
+function bossDefeated(){
+
+    fightEnded = true;
+document.getElementById("fightControls").style.display = "none";
+    document.getElementById(
+        "fightControls"
+    ).style.display = "none";
+
+    const bossImg =
+        document.getElementById("bossImage");
+
+    bossImg.classList.add("boss-death");
+
+    launchVictoryEffects();
+
+    setTimeout(()=>{
+
+        bossImg.style.display = "none";
+
+        victory();
+
+    },2500);
+}
+
+function launchVictoryEffects(){
+
+    const container =
+        document.getElementById("victoryEffects");
+
+    container.innerHTML = "";
+
+    // Flash doré
+    container.classList.add("victoryFlash");
+
+    setTimeout(()=>{
+        container.classList.remove("victoryFlash");
+    },800);
+
+    // Feux d'artifice
+    for(let i=0;i<40;i++){
+
+        setTimeout(()=>{
+
+            const fw =
+                document.createElement("div");
+
+            fw.className = "firework";
+
+            fw.style.left =
+                Math.random()*100 + "%";
+
+            fw.style.top =
+                Math.random()*70 + "%";
+
+            fw.style.background =
+                `hsl(${Math.random()*360},100%,60%)`;
+
+            container.appendChild(fw);
+
+            setTimeout(()=>{
+                fw.remove();
+            },1500);
+
+        }, i*120);
+    }
+
+    // Confettis
+    for(let i=0;i<150;i++){
+
+        const c =
+            document.createElement("div");
+
+        c.className = "confetti";
+
+        c.style.left =
+            Math.random()*100 + "%";
+
+        c.style.background =
+            `hsl(${Math.random()*360},100%,60%)`;
+
+        c.style.animationDelay =
+            (Math.random()*2) + "s";
+
+        container.appendChild(c);
+
+        setTimeout(()=>{
+            c.remove();
+        },6000);
+    }
 }
