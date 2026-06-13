@@ -20,7 +20,19 @@
 <label>💰 Or Récompense: <input type="number" id="bossGold" value="5"></label><br><br>
 <label>🔮 Mana Récompense: <input type="number" id="bossMana" value="0"></label><br><br>
 <label>Nombre de mauvaises réponses avant la fuite du boss : <input type="number" id="bossEscape" value="3"></label><br><br>
+<h3>Mode d'attaque du boss</h3>
 
+<label>
+  <input type="checkbox" id="modeShake" checked>
+  Mode normal (shake)
+</label>
+
+<br>
+
+<label>
+  <input type="checkbox" id="modeCharge">
+  Mode agressif (boss fonce)
+</label>
 <button onclick="startFight()">Commencer le combat</button>
 </div>
 
@@ -30,16 +42,24 @@
 <div id="heartsContainer"></div>
 <div id="statusContainer"></div>
 
-<img id="bossImage" src="">
+<div id="bossScene">
+    <div id="bossWrap">
+        <div id="bossContainer">
+            <img id="bossImage" src="...">
+        </div>
+    </div>
+</div>
 
-<div>
-<button id="goodBtn" onclick="goodAnswer()">Bonne réponse ✅</button>
-<button id="wrongBtn" onclick="wrongAnswer()">Mauvaise réponse ❌</button>
+<div id="fightControls">
 
-<br>
+    <button id="goodBtn" onclick="goodAnswer()">Bonne réponse ✅</button>
+    <button id="wrongBtn" onclick="wrongAnswer()">Mauvaise réponse ❌</button>
 
-<button onclick="showRandomStudent()">🎲 Élève au hasard</button>
-<button onclick="skipTurn()">⏭️ Passer son tour</button>
+    <br>
+
+    <button onclick="showRandomStudent()">🎲 Élève au hasard</button>
+    <button onclick="skipTurn()">⏭️ Passer son tour</button>
+
 </div>
 
 </div>
@@ -65,7 +85,7 @@
 </div>
 
 <div id="currentStudentBar"></div>
-
+<div id="victoryEffects"></div>
 <script src="js/xp.js"></script>
 <script src="js/storage.js"></script>
 <script src="js/boss.js"></script>
