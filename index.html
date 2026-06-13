@@ -130,7 +130,9 @@
             style="display:none"
             onchange="importAllClasses(event)">
     </div>
-
+<button onclick="forceUpdateCheck()">
+🔄 Vérifier les mises à jour
+</button>
 </div>
 <script src="js/index.js"></script>
 <script>
@@ -162,6 +164,11 @@ if(!localStorage.getItem("demoInstalled")){
     );
 }
 
+</script>
+<script src="js/version.js"></script>
+
+<script>
+checkForUpdates();
 </script>
 </body>
 </html>
