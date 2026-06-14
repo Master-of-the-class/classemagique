@@ -1,33 +1,27 @@
-async function checkForUpdates(force = false) {
+const CURRENT_VERSION = "0.0.1";
 
-    const res = await fetch("version.json?t=" + Date.now());
-    const data = await res.json();
+async function checkForUpdates() {
+    try {
+        const res = await fetch("./version.json?cache=" + Date.now(), {
+            cache: "no-store"
+        });
 
-    const localVersion = localStorage.getItem("app_version");
+        const data = await res.json();
 
-    console.log("Local:", localVersion);
-    console.log("Remote:", data.version);
+        console.log("Version serveur:", data.version);
 
-    // première visite → on enregistre
-    if (!localVersion) {
-        localStorage.setItem("app_version", data.version);
-        return;
-    }
-
-    // si version différente OU force check
-    if (force || localVersion !== data.version) {
-
-        const ok = confirm(
-            `Nouvelle version ${data.version} disponible. Recharger ?`
-        );
-
-        if (ok) {
-            localStorage.setItem("app_version", data.version);
-            location.reload();
+        if (data.version !== CURRENT_VERSION) {
+            alert("Nouvelle version disponible !");
+        } else {
+            console.log("À jour");
         }
+
+    } catch (e) {
+        console.error("Erreur update:", e);
     }
 }
 
 function forceUpdateCheck() {
-    checkForUpdates(true);
+    console.log("Bouton update cliqué");
+    checkForUpdates();
 }
