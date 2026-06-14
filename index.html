@@ -135,6 +135,7 @@
 </button>
 </div>
 <script src="js/index.js"></script>
+<script src="js/version.js" defer></script>
 <script>
 
 if(!localStorage.getItem("demoInstalled")){
@@ -164,12 +165,12 @@ if(!localStorage.getItem("demoInstalled")){
     );
 }
 
-</script>
-<script src="js/version.js"></script>
 
-<script>
-checkForUpdates();
+window.addEventListener("DOMContentLoaded", () => {
+    checkForUpdates();
+});
 </script>
+
 </body>
 </html>
 
