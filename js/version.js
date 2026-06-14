@@ -27,7 +27,6 @@ async function checkForUpdates() {
 
 function showUpdatePopup(version, message) {
 
-  
     if (document.getElementById("updatePopup")) return;
 
     const popup = document.createElement("div");
@@ -58,7 +57,7 @@ function showUpdatePopup(version, message) {
 function forceUpdate() {
     console.log("Update forcé");
 
-  
-    window.location.href = window.location.href.split("?")[0] + "?v=" + Date.now();
-}
+    window.location.href =
+        window.location.href.split("?")[0] +
+        "?v=" + Date.now();
 }
