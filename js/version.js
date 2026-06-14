@@ -1,23 +1,19 @@
 const CURRENT_VERSION = "0.0.1";
 
 async function checkForUpdates() {
-    try {
-        const res = await fetch("./version.json?cache=" + Date.now(), {
-            cache: "no-store"
-        });
+    const res = await fetch("./version.json?cache=" + Date.now());
+    const data = await res.json();
 
-        const data = await res.json();
+    const serverVersion = String(data.version).trim();
+    const localVersion = String(CURRENT_VERSION).trim();
 
-        console.log("Version serveur:", data.version);
+    console.log("LOCAL:", localVersion);
+    console.log("SERVER:", serverVersion);
 
-        if (data.version !== CURRENT_VERSION) {
-            alert("Nouvelle version disponible !");
-        } else {
-            console.log("À jour");
-        }
-
-    } catch (e) {
-        console.error("Erreur update:", e);
+    if (serverVersion !== localVersion) {
+        alert("Nouvelle version disponible !");
+    } else {
+        console.log("À jour");
     }
 }
 
