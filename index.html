@@ -138,6 +138,13 @@
 <script src="js/version.js" defer></script>
 <script>
 
+window.addEventListener("load", () => {
+    if (typeof checkForUpdates === "function") {
+        checkForUpdates();
+    } else {
+        console.warn("version.js pas chargé");
+    }
+
 if(!localStorage.getItem("demoInstalled")){
 
     localStorage.setItem(
@@ -165,9 +172,6 @@ if(!localStorage.getItem("demoInstalled")){
     );
 }
 
-
-window.addEventListener("DOMContentLoaded", () => {
-    checkForUpdates();
 });
 </script>
 
