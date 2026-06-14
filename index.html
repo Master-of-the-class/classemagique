@@ -134,16 +134,12 @@
 🔄 Vérifier les mises à jour
 </button>
 </div>
-<script src="js/index.js"></script>
+<script src="js/index.js" defer></script>
 <script src="js/version.js" defer></script>
 <script>
 
 window.addEventListener("load", () => {
-    if (typeof checkForUpdates === "function") {
-        checkForUpdates();
-    } else {
-        console.warn("version.js pas chargé");
-    }
+    checkForUpdates();
 
 if(!localStorage.getItem("demoInstalled")){
 
